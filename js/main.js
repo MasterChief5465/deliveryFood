@@ -7,7 +7,6 @@ const buttonCart = document.querySelector("#cart-button"),
 function toggleModal() {
     modal.classList.toggle("is-open");
 }
-
 buttonCart.addEventListener("click", toggleModal);
 buttonClose.addEventListener("click", toggleModal);
 
@@ -16,7 +15,7 @@ buttonClose.addEventListener("click", toggleModal);
 const buttonAuth = document.querySelector(".button-auth"),
     modalAuth = document.querySelector(".modal-auth"),
     closeAuth = document.querySelector(".close-auth"),
-    logInForm = document.querySelector("#logInForm"),
+    loginForm = document.querySelector("#loginForm"),
     loginInput = document.querySelector("#login"),
     userName = document.querySelector(".user-name"),
     buttonOut = document.querySelector(".button-out");
@@ -24,6 +23,7 @@ const buttonAuth = document.querySelector(".button-auth"),
 let login = localStorage.getItem("deliveryLogin");
 
 function toggleModalAuth() {
+    loginInput.style.borderColor = "";
     modalAuth.classList.toggle("is-open");
 }
 
@@ -34,12 +34,9 @@ function authorized() {
         userName.style.display = "";
         buttonOut.style.display = "";
         buttonOut.removeEventListener("click", logOut);
-
         localStorage.removeItem("deliveryLogin");
-
         checkAuth();
     }
-
     console.log("authorized");
 
     userName.textContent = login;
@@ -54,28 +51,23 @@ function notAuthorized() {
 
     function logIn(event) {
         event.preventDefault();
-        login = loginInput.value;
 
-        if (login) {
+        if (loginInput.value.trim()) {
+            login = loginInput.value;
             localStorage.setItem("deliveryLogin", login);
-
             toggleModalAuth();
             buttonAuth.removeEventListener("click", toggleModalAuth);
             closeAuth.removeEventListener("click", toggleModalAuth);
-            logInForm.removeEventListener("submit", logIn);
-            logInForm.reset();
-
+            loginForm.removeEventListener("submit", logIn);
+            loginForm.reset();
             checkAuth();
         } else {
-            loginInput.required = true;
             loginInput.style.borderColor = "red";
-            console.log("error");
         }
     }
-
     buttonAuth.addEventListener("click", toggleModalAuth);
     closeAuth.addEventListener("click", toggleModalAuth);
-    logInForm.addEventListener("submit", logIn);
+    loginForm.addEventListener("submit", logIn);
 }
 
 function checkAuth() {
