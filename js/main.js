@@ -233,6 +233,10 @@ function init() {
 								return searchGoods;
 							})
 							.then((data) => {
+								if (data.length === 0) {
+									restaurantTitle.textContent = 'Item not found!';
+									minPrice.style.display = 'none';
+								}
 								data.forEach(createCardGood);
 							});
 					});
